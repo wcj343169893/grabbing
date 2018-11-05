@@ -45,8 +45,6 @@ class Tmall extends Driver
         return [
             "title" => $title,
             "link" => $this->getFullUrl($link),
-            "number" => $this->getRandomNumber(),
-            "key" => $this->getRandomKey($link),
             "image" => $this->getFullUrl($pic)
         ];
     }

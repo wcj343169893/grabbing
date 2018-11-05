@@ -38,8 +38,6 @@ class Alibaba extends Driver
         return [
             "title" => $title,
             "link" => $link,
-            "number" => $this->getRandomNumber(),
-            "key" => $this->getRandomKey($link),
             "image" => $pic
         ];
     }

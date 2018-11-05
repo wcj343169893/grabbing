@@ -45,12 +45,6 @@ abstract class Driver
         return $link;
     }
 
-    public function getHomePage()
-    {}
-
-    public function getDetailPage()
-    {}
-
     /**
      * 生成随机号码
      *
@@ -82,6 +76,10 @@ abstract class Driver
 
     /**
      * 获取产品详情
+     * ["title" => $title, "link" => $link,"image" => $pic]
+     *
+     * @param $link 详细页面地址            
+     * @return []
      */
     abstract public function getGoodsInfo($link);
 
@@ -122,11 +120,40 @@ abstract class Driver
         if (is_array($link)) {
             $data = [];
             foreach ($link as $li) {
-                $data[] = $this->getGoodsInfo($li);
+                $data[] = $this->getGoodsInfoWithKey($li);
             }
             return $data;
         }
-        return $this->getGoodsInfo($link);
+        
+        return $this->getGoodsInfoWithKey($link);
+    }
+
+    /**
+     * 获取一条产品信息的数据，并增加key和随机number
+     * 
+     * @param string $link            
+     * @return []
+     */
+    protected function getGoodsInfoWithKey($link)
+    {
+        $data = $this->getGoodsInfo($link);
+        $data["number"] = $this->getRandomNumber();
+        $data["key"] = $this->getRandomKey($data["link"]);
+        return $data;
+    }
+
+    /**
+     * 验证是否修改正确
+     *
+     * @param string $link            
+     * @param int $number            
+     * @param string $title            
+     * @return boolean
+     */
+    public function checkModified($link, $number, $title)
+    {
+        $info = $this->getGoodsInfo($link);
+        return $info && $info["title"] == $title . $number;
     }
 
     /**
